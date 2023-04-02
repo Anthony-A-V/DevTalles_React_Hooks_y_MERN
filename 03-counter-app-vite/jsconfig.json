@@ -1,5 +1,9 @@
 {
   "typeAcquisition": {
     "include": ["jest"]
+  },
+  "compilerOptions": {
+    "module": "ES2022",
+    "target": "es6"
   }
 }
