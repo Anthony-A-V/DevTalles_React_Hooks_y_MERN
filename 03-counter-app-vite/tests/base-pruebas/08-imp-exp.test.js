@@ -19,11 +19,11 @@ describe('Pruebas en 08-imp-exp', () => {
   });
 
   // Tarea:
-  // Debe de retornar un arreglo con los héroes de DC
+  // debe de retornar un arreglo con los héroes de DC
   // Lenght === 3
   // toEqual al arreglo filtrado
 
-  // Debe de retornar un arreglo con los héroes de Marvel
+  // debe de retornar un arreglo con los héroes de Marvel
   // lenght === 2
 
   test('getHeroesByOwner debe de retornar la longitud y el arreglo con los héroes de DC', () => {
