@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './styles.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { AppRouter } from './router/AppRouter';
+import { HeroesApp } from './HeroesApp';
 
 const router = createBrowserRouter([
   {
     path: '*',
-    element: <AppRouter />,
+    element: <HeroesApp />,
   },
 ]);
 
