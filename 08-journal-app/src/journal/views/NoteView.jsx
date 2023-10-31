@@ -11,6 +11,7 @@ export const NoteView = () => {
       sx={{
         mb: 1,
       }}
+      className="animate__animated animate__fadeIn animated__faster"
     >
       <Grid item>
         <Typography fontSize={39} fontWeight="light">

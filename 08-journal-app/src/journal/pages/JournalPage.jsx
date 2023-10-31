@@ -12,8 +12,8 @@ export const JournalPage = () => {
         illum? Sed, cum in nihil ipsam eligendi minima eveniet!
       </Typography> */}
 
-      {/* <NothingSelectedView /> */}
-      <NoteView />
+      <NothingSelectedView />
+      {/* <NoteView /> */}
 
       <IconButton
         size="large"
