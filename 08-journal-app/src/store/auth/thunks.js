@@ -5,17 +5,17 @@ import {
   singInWithGoogle,
 } from '../../firebase/providers';
 import { clearNotesLogout } from '../journal';
-import { checkingCredencialts, login, logout } from './authSlice';
+import { checkingCredentials, login, logout } from './authSlice';
 
-export const checkingAuthentication = (email, password) => {
+export const checkingAuthentication = () => {
   return async (dispatch) => {
-    dispatch(checkingCredencialts());
+    dispatch(checkingCredentials());
   };
 };
 
 export const startGoogleSingIn = () => {
   return async (dispatch) => {
-    dispatch(checkingCredencialts());
+    dispatch(checkingCredentials());
     const result = await singInWithGoogle();
     if (!result.ok) return dispatch(logout(result.errorMessage));
 
@@ -29,7 +29,7 @@ export const startCreatingUserWithEmailPassword = ({
   displayName,
 }) => {
   return async (dispatch) => {
-    dispatch(checkingCredencialts());
+    dispatch(checkingCredentials());
     const { ok, uid, photoURL, errorMessage } =
       await registerUserWithEmailPassword({
         email,
@@ -45,7 +45,7 @@ export const startCreatingUserWithEmailPassword = ({
 
 export const startLoginWithEmailPassword = ({ email, password }) => {
   return async (dispatch) => {
-    dispatch(checkingCredencialts());
+    dispatch(checkingCredentials());
     const result = await loginWithEmailPassword({ email, password });
 
     if (!result.ok) return dispatch(logout(result));
