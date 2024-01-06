@@ -12,7 +12,7 @@ import { Google } from '@mui/icons-material';
 import { AuthLayout } from '../layout/AuthLayout';
 import { useForm } from '../../hooks/useForm';
 import {
-  startGoogleSingIn,
+  startGoogleSignIn,
   startLoginWithEmailPassword,
 } from '../../store/auth';
 import { useMemo } from 'react';
@@ -33,17 +33,19 @@ export const LoginPage = () => {
   const onSubmit = (event) => {
     event.preventDefault();
 
+    console.log({ email, password });
     dispatch(startLoginWithEmailPassword({ email, password }));
   };
 
   const onGoogleSignIn = () => {
-    dispatch(startGoogleSingIn());
     console.log('onGoogleSignIn');
+    dispatch(startGoogleSignIn());
   };
 
   return (
     <AuthLayout title="Login">
       <form
+        aria-label="submit-form"
         onSubmit={onSubmit}
         className="animate__animated animate__fadeIn animated__faster"
       >
@@ -67,6 +69,9 @@ export const LoginPage = () => {
               placeholder="Contraseña"
               fullWidth
               name="password"
+              inputProps={{
+                'data-testid': 'password',
+              }}
               value={password}
               onChange={onInputChange}
             />
@@ -95,6 +100,7 @@ export const LoginPage = () => {
                 disabled={isAuthenticating}
                 variant="contained"
                 fullWidth
+                aria-label="google-btn"
                 onClick={onGoogleSignIn}
               >
                 <Google />

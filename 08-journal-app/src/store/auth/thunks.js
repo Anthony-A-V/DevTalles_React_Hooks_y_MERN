@@ -13,7 +13,7 @@ export const checkingAuthentication = () => {
   };
 };
 
-export const startGoogleSingIn = () => {
+export const startGoogleSignIn = () => {
   return async (dispatch) => {
     dispatch(checkingCredentials());
     const result = await singInWithGoogle();
