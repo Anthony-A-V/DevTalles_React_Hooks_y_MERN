@@ -4,10 +4,15 @@ import {
   onDeleteEvent,
   onSetActiveEvent,
   onUpdateEvent,
+  onLoadEvents,
 } from '../store';
+import calendarApi from '../api/calendarApi';
+import { converEventsToDateEvents } from '../helpers';
+import Swal from 'sweetalert2';
 
 export const useCalendarStore = () => {
   const { events, activeEvent } = useSelector((state) => state.calendar);
+  const { user } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
@@ -16,21 +21,41 @@ export const useCalendarStore = () => {
   };
 
   const startSavingEvent = async (calendarEvent) => {
-    // TODO: llegar al backend
-
-    // Todo bien
-    if (calendarEvent._id) {
-      // Actualizando
-      dispatch(onUpdateEvent({ ...calendarEvent }));
-    } else {
+    try {
+      if (calendarEvent.id) {
+        // Actualizando
+        await calendarApi.put(`/events/${calendarEvent.id}`, calendarEvent);
+        dispatch(onUpdateEvent({ ...calendarEvent, user }));
+        return;
+      }
       // Creando
-      dispatch(onAddNewEvent({ ...calendarEvent, _id: new Date().getTime() }));
+      const { data } = await calendarApi.post('/events', calendarEvent);
+      dispatch(onAddNewEvent({ ...calendarEvent, id: data.evento.id, user }));
+    } catch (error) {
+      console.log(error);
+      Swal.fire('Error al guardar', error.response.data.msg, 'error');
     }
   };
 
-  const startDeletingEvent = () => {
-    // Todo: Llegar al backend
-    dispatch(onDeleteEvent());
+  const startDeletingEvent = async () => {
+    try {
+      await calendarApi.delete(`/events/${activeEvent.id}`);
+      dispatch(onDeleteEvent());
+    } catch (error) {
+      console.log(error);
+      Swal.fire('Error al eliminar', error.response.data.msg, 'error');
+    }
+  };
+
+  const startLoadingEvents = async () => {
+    try {
+      const { data } = await calendarApi.get('/events');
+      const events = converEventsToDateEvents(data.eventos);
+      dispatch(onLoadEvents(events));
+    } catch (error) {
+      console.log('Error cargando eventos');
+      console.log(error);
+    }
   };
 
   return {
@@ -40,8 +65,10 @@ export const useCalendarStore = () => {
     hasEventSelected: !!activeEvent,
 
     //* Métodos
-    startDeletingEvent,
     setActiveEvent,
+    startDeletingEvent,
+    startLoadingEvents,
     startSavingEvent,
+    onLoadEvents,
   };
 };
